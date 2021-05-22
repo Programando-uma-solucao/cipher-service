@@ -6,7 +6,7 @@ import { Encrypted } from '../../entity/Encrypted';
 
 @Injectable()
 export class CipherService {
-  private algorithm = 'aes-256-gcm';
+  private algorithm = process.env.ALGORITHM;
   private salt: Buffer = Buffer.from(process.env.SALT);
   private key: string = this.sha512(process.env.SECRET).substr(0, 32);
 
