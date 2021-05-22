@@ -7,5 +7,7 @@ import { AppModule } from './app.module';
     transport: Transport.TCP,
     options: { host: 'localhost', port: 8082 },
   });
-  app.listen(() => console.log('cipher-service is listening on port 8082'));
+  app.listen(() => {
+    console.log('cipher-service is listening on port 8082');
+  });
 })();
