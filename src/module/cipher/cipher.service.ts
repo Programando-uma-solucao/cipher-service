@@ -8,7 +8,9 @@ import { Encrypted } from '../../entity/Encrypted';
 export class CipherService {
   private algorithm = process.env.ALGORITHM;
   private salt: Buffer = Buffer.from(process.env.SALT);
-  private key: string = this.sha512(process.env.SECRET).substr(0, 32);
+  private key: Buffer = Buffer.from(
+    this.sha512(process.env.SECRET).substr(0, 32),
+  );
 
   private sha512(data: string): string {
     const hash: crypto.Hmac = crypto.createHmac('sha512', this.salt);
@@ -17,16 +19,29 @@ export class CipherService {
   }
 
   private getCipher(data: string, iv: crypto.BinaryLike): string {
-    const cypher: crypto.Cipher = crypto.createCipheriv(
+    const cipher: crypto.Cipher = crypto.createCipheriv(
       this.algorithm,
-      Buffer.from(this.key),
+      this.key,
       iv,
     );
 
-    let cyphered: string = cypher.update(data, 'utf8', 'base64');
-    cyphered += cypher.final('base64');
+    let ciphered: string = cipher.update(data, 'utf8', 'base64');
+    ciphered += cipher.final('base64');
 
-    return cyphered;
+    return ciphered;
+  }
+
+  private getDecipher(encrypted: string, iv: string): string {
+    const decipher: crypto.Decipher = crypto.createDecipheriv(
+      this.algorithm,
+      this.key,
+      Buffer.from(iv, 'base64'),
+    );
+
+    const deciphered: Buffer = decipher.update(
+      Buffer.from(encrypted, 'base64'),
+    );
+    return deciphered.toString();
   }
 
   private getIV(): Buffer {
@@ -43,18 +58,36 @@ export class CipherService {
     return new Encrypted(encrypted, hash);
   }
 
+  decryptOne(encrypted: string): string {
+    const iv: string = encrypted.slice(0, 24);
+    const content: string = encrypted.slice(24, encrypted.length);
+
+    return this.getDecipher(content, iv);
+  }
+
   encrypt(data: any, ignore: Array<string> = []): any {
     const result: any = {};
 
     Object.keys(data).forEach((field) => {
       if (!ignore.includes(field)) {
-        if (field == 'password') {
-          result[`${field}Hash`] = this.sha512(data[field]);
-        } else {
-          const encrypted: Encrypted = this.encryptOne(data[field]);
+        const encrypted: Encrypted = this.encryptOne(data[field]);
+        result[`${field}Hash`] = encrypted.getHash();
+
+        if (field !== 'password') {
           result[field] = encrypted.getData();
-          result[`${field}Hash`] = encrypted.getHash();
         }
+      }
+    });
+
+    return result;
+  }
+
+  decrypt(encypted: any): any {
+    const result: any = {};
+
+    Object.keys(encypted).forEach((field) => {
+      if (!field.includes('Hash')) {
+        result[field] = this.decryptOne(encypted[field]);
       }
     });
 
