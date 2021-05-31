@@ -10,4 +10,9 @@ export class CipherController {
   encrypt(data: any): any {
     return this.cipherService.encrypt(data);
   }
+
+  @MessagePattern('decrypt')
+  decrypt(encrypted: any): any {
+    return this.cipherService.decrypt(encrypted);
+  }
 }

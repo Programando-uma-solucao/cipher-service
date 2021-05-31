@@ -36,4 +36,22 @@ describe('CipherService', () => {
     expect(encryptedObject['testHash']).toBe(hash);
     expect(encryptedObject['test']).not.toBe(null);
   });
+
+  it('should decrypt single data', () => {
+    const content = 'hello';
+    const encrypted: Encrypted = cipherService.encryptOne(content);
+
+    const encryptedContent: string = encrypted.getData();
+    const decrypted: string = cipherService.decryptOne(encryptedContent);
+
+    expect(decrypted).toBe(content);
+  });
+
+  it('should decrypt object', () => {
+    const content: any = { test: 'hello', message: 'world' };
+    const encryptedObject: any = cipherService.encrypt(content);
+    const decryptedObject: any = cipherService.decrypt(encryptedObject);
+
+    expect(decryptedObject).toStrictEqual(content);
+  });
 });
