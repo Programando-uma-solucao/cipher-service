@@ -13,8 +13,6 @@ export class CipherController {
 
   @MessagePattern('encrypt')
   encrypt(@Payload() data: EncryptProps): any {
-    console.log('incoming request');
-
     return this.cipherService.encrypt(data.toEncrypt, data.ignore);
   }
 
