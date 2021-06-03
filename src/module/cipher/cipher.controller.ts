@@ -24,7 +24,7 @@ export class CipherController {
   }
 
   @MessagePattern('login')
-  login(){
-    return "logged_in";
+  login(data: any): string{
+    return data;
   }
 }
