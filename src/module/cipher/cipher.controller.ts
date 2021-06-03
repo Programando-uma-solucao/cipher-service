@@ -22,4 +22,9 @@ export class CipherController {
   decrypt(encrypted: any): any {
     return this.cipherService.decrypt(encrypted);
   }
+
+  @MessagePattern('login')
+  login(){
+    return "logged_in";
+  }
 }
