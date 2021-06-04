@@ -4,6 +4,7 @@ import { CryptService } from './module/cipher/crypt.service';
 import { ConfigModule } from '@nestjs/config';
 import { JwtController } from './module/cipher/jwt.controller';
 import { JwtService } from './module/cipher/jwt.service';
+import { LoginController } from './module/cipher/login.controller';
 
 @Module({
   imports: [
@@ -11,7 +12,7 @@ import { JwtService } from './module/cipher/jwt.service';
       envFilePath: '.development.env',
     }),
   ],
-  controllers: [CryptController, JwtController],
+  controllers: [CryptController, JwtController, LoginController],
   providers: [CryptService, JwtService],
 })
 export class AppModule {}
