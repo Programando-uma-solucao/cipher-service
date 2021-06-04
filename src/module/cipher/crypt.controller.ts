@@ -1,20 +1,18 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { CipherService } from './cipher.service';
+import { CryptService } from './crypt.service';
 
 interface EncryptProps {
   toEncrypt: any;
   ignore: Array<string>;
 }
 
-@Controller('cipher')
-export class CipherController {
-  constructor(private readonly cipherService: CipherService) {}
+@Controller('crypt')
+export class CryptController {
+  constructor(private readonly cipherService: CryptService) {}
 
   @MessagePattern('encrypt')
   encrypt(@Payload() data: EncryptProps): any {
-    console.log('incoming request');
-
     return this.cipherService.encrypt(data.toEncrypt, data.ignore);
   }
 

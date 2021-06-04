@@ -5,7 +5,7 @@ import * as crypto from 'crypto';
 import { Encrypted } from '../../entity/Encrypted';
 
 @Injectable()
-export class CipherService {
+export class CryptService {
   private algorithm = process.env.ALGORITHM;
   private salt: Buffer = Buffer.from(process.env.SALT);
   private key: Buffer = Buffer.from(
