@@ -3,6 +3,9 @@ import { CryptService } from './crypt.service';
 
 @Injectable()
 export class LoginService{
+    
 
-    login(data){return data}
+    login(data){
+        return data
+    }
 }
