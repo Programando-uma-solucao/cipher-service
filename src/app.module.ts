@@ -6,9 +6,12 @@ import { JwtController } from './module/cipher/jwt.controller';
 import { JwtService } from './module/cipher/jwt.service';
 import { LoginController } from './module/cipher/login.controller';
 import { LoginService } from './module/cipher/login.service';
+import { ClientsModule } from '@nestjs/microservices';
+import { AccountServiceConfig } from './config/microservices.config';
 
 @Module({
   imports: [
+    ClientsModule.register([AccountServiceConfig]),
     ConfigModule.forRoot({
       envFilePath: '.development.env',
     }),
