@@ -86,7 +86,6 @@ export class CryptService {
     const result: any = {};
 
     Object.keys(encypted).forEach((field) => {
-  
       if (!field.includes('Hash') && !ignore.includes(field)) {
         result[field] = this.decryptOne(encypted[field]);
       }
