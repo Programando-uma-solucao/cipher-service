@@ -37,5 +37,10 @@ export class LoginService {
         email: data.email,
       });
     }
+
+    throw new RpcException({
+      httpCode: 400,
+      message: 'Invalid Password',
+    });
   }
 }
