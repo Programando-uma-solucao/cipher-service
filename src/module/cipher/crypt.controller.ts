@@ -31,14 +31,4 @@ export class CryptController {
   decryptOne(@Payload() data: string): string {
     return this.cipherService.decryptOne(data);
   }
-
-  @MessagePattern('encryptOne')
-  encryptOne(@Payload() data: string): any {
-    return this.cipherService.encryptOne(data);
-  }
-
-  @MessagePattern('decryptOne')
-  decryptOne(encrypted: any): any {
-    return this.cipherService.decryptOne(encrypted);
-  }
 }
