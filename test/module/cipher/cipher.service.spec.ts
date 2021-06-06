@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Encrypted } from '../../../src/entity/Encrypted';
-import { CipherService } from '../../../src/module/cipher/cipher.service';
+import { CryptService } from '../../../src/module/cipher/crypt.service';
 import { ConfigModule } from '@nestjs/config';
 
 describe('CipherService', () => {
-  let cipherService: CipherService;
+  let cipherService: CryptService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -13,10 +13,10 @@ describe('CipherService', () => {
           envFilePath: '.development.env',
         }),
       ],
-      providers: [CipherService],
+      providers: [CryptService],
     }).compile();
 
-    cipherService = module.get<CipherService>(CipherService);
+    cipherService = module.get<CryptService>(CryptService);
   });
 
   it('should encrypt single data', () => {
