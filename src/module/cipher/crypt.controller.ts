@@ -1,5 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Encrypted } from '../../entity/Encrypted';
 import { CryptService } from './crypt.service';
 
 interface EncryptProps {
@@ -17,7 +18,12 @@ export class CryptController {
   }
 
   @MessagePattern('decrypt')
-  decrypt(encrypted: any): any {
+  decrypt(@Payload() encrypted: any): any {
     return this.cipherService.decrypt(encrypted);
+  }
+
+  @MessagePattern('encryptOne')
+  encryptOne(@Payload() data: string): Encrypted {
+    return this.cipherService.encryptOne(data);
   }
 }
