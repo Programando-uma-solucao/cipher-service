@@ -82,11 +82,11 @@ export class CryptService {
     return result;
   }
 
-  decrypt(encypted: any): any {
+  decrypt(encypted: any, ignore: Array<string> = []): any {
     const result: any = {};
 
     Object.keys(encypted).forEach((field) => {
-      if (!field.includes('Hash')) {
+      if (!field.includes('Hash') && !ignore.includes(field)) {
         result[field] = this.decryptOne(encypted[field]);
       }
     });

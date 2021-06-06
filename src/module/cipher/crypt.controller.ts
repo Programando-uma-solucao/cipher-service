@@ -3,8 +3,8 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 import { Encrypted } from '../../entity/Encrypted';
 import { CryptService } from './crypt.service';
 
-interface EncryptProps {
-  toEncrypt: any;
+interface CryptProps {
+  data: any;
   ignore: Array<string>;
 }
 
@@ -13,13 +13,13 @@ export class CryptController {
   constructor(private readonly cipherService: CryptService) {}
 
   @MessagePattern('encrypt')
-  encrypt(@Payload() data: EncryptProps): any {
-    return this.cipherService.encrypt(data.toEncrypt, data.ignore);
+  encrypt(@Payload() encrypt: CryptProps): any {
+    return this.cipherService.encrypt(encrypt.data, encrypt.ignore);
   }
 
   @MessagePattern('decrypt')
-  decrypt(@Payload() encrypted: any): any {
-    return this.cipherService.decrypt(encrypted);
+  decrypt(@Payload() decrypt: CryptProps): any {
+    return this.cipherService.decrypt(decrypt.data, decrypt.ignore);
   }
 
   @MessagePattern('encryptOne')
