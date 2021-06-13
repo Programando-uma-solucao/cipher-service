@@ -27,11 +27,9 @@ export class JwtService {
 
   verifyToken(token: string): TokenDto {
     try {
-      const decoded = verify(token, jwtConfig.secret);
+      const decoded = verify(token, jwtConfig.secret) as TokenDto;
 
-      const { sub, exp, iat } = decoded as TokenDto;
-
-      return { sub, exp, iat };
+      return decoded;
     } catch (error) {
       throw new RpcException({
         httpCode: 401,
