@@ -13,7 +13,7 @@ import { AccountServiceConfig } from './config/microservices.config';
   imports: [
     ClientsModule.register([AccountServiceConfig]),
     ConfigModule.forRoot({
-      envFilePath: '.development.env',
+      envFilePath: ['.env', '.development.env'],
     }),
   ],
   controllers: [CryptController, JwtController, LoginController],
