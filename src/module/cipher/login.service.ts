@@ -17,7 +17,7 @@ export class LoginService {
     const { email, password } = data;
 
     const account = await this.accountService
-      .send('getAccount', { email })
+      .send('getAccountByEmail', email)
       .toPromise();
 
     if (!account)
